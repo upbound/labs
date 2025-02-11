@@ -1,0 +1,16 @@
+apiVersion: ai.platform.example.org/v1alpha1
+kind: Upbox
+metadata:
+  name: ai-upbox-vm-us-east-1
+  namespace: default
+spec:
+  name: markus-schweig
+  networkId: ai-upbox-net-us-east
+  # regions: - ap-southeast-1 - eu-central-1 - eu-north-1
+  #          - eu-west-1 - sa-east-1 - us-east-1 - us-west-2
+  region: us-east-1
+  # zone
+  zone: a # a, b, c, d, e to optionally specify subnet location. Default is a.
+  # instance sizes: - small - medium - large - xlarge - premium
+  size: small
+  publicSshKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPPnjJrm0lsdelQifFC7lbRk8g/au4gdFKHDHcMV0NESuYO4wp0eVInQNQZIpC7onNZVK8nWJc9gggrThS1dNSI5W7J6xTwOZVYkvVicjjSpw9QG3czdBnU1Ywg52bFXbW7PoR79mpTKfMH8uY06jLZZUoFRO0E3misQUQCit/4UM3+YJHDFwvgySSb88HRduVFNslUwGCKzIFl4Ogbk9qNkmcT1o6Je+DLf+PmnbFxWur3NWuu9yLqPmyBbD2pdoCvKfaHtkilUUxw3Jeamq20emHt8o7z+QPCjrrk/Z5Qi3XUsglwTzMkz9AuuLMXPI1eKmgaj5wMyZvONg53w1P40LcrqBW1GbAa28+DIT6ucmb92bgzh9lJM4C55ONKqFaaA6UR1DY/jAq/zDR/w8tIfbyl4iTuJSRMnHEprhZBSB2gmwvT1ZShktUIEp0leWoU1SQgMdol0d13MaynmQxGsTUq8IhI84QFfWw7XuFgd8cd5SKi85Qb3l4TGq6zX8= markuss@Markuss-MacBook-Pro.local

@@ -1,0 +1,10 @@
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Upbound
+    upbound:
+      webIdentity:
+        roleARN: arn:aws:iam::${AWS_TARGET_ACCOUNT}:role/ai-playground

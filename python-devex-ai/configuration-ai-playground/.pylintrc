@@ -1,0 +1,2 @@
+[MASTER]
+	init-hook='import sys; sys.path.append("./functions/compose-network/lib/python3.13/site-packages")'

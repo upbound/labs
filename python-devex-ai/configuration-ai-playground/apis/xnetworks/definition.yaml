@@ -1,0 +1,80 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xnetworks.ai.platform.example.org
+spec:
+  claimNames:
+    kind: Network
+    plural: networks
+  group: ai.platform.example.org
+  names:
+    categories:
+      - crossplane
+    kind: XNetwork
+    plural: xnetworks
+  versions:
+    - name: v1alpha1
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          description: Network is the Schema for the Network API.
+          properties:
+            spec:
+              description: NetworkSpec defines the desired state of Network.
+              properties:
+                id:
+                  type: string
+                providerConfigName:
+                  type: string
+                  default: default
+                region:
+                  type: string
+                  enum:
+                    - ap-southeast-1
+                    - eu-central-1
+                    - eu-north-1
+                    - eu-west-1
+                    - sa-east-1
+                    - us-east-1
+                    - us-west-2
+                  default: us-east-1
+                subnets:
+                  items:
+                    properties:
+                      availabilityZone:
+                        type: string
+                      cidrBlock:
+                        type: string
+                      type:
+                        type: string
+                    required:
+                      - availabilityZone
+                      - cidrBlock
+                      - type
+                    type: object
+                  type: array
+                vpcCidrBlock:
+                  type: string
+              required:
+                - id
+                - subnets
+                - vpcCidrBlock
+              type: object
+            status:
+              description: NetworkStatus defines the observed state of Network.
+              type: object
+              properties:
+                xnetwork:
+                  type: object
+                  properties:
+                    subnets:
+                      type: array
+                      items:
+                        type: object
+                      x-kubernetes-preserve-unknown-fields: true
+                    vpcCidrBlock:
+                      type: string
+          required:
+            - spec
+          type: object
+      served: true

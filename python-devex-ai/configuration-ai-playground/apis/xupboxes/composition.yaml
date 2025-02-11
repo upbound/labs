@@ -1,0 +1,16 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xupboxes.ai.platform.example.org
+spec:
+  compositeTypeRef:
+    apiVersion: ai.platform.example.org/v1alpha1
+    kind: XUpbox
+  mode: Pipeline
+  pipeline:
+  - functionRef:
+      name: upbound-configuration-ai-playgroundcompose-upbox
+    step: compose-upbox
+  - functionRef:
+      name: crossplane-contrib-function-auto-ready
+    step: crossplane-contrib-function-auto-ready
