@@ -1,0 +1,73 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xupboxes.ai.platform.example.org
+spec:
+  claimNames:
+    kind: Upbox
+    plural: upboxes
+  group: ai.platform.example.org
+  names:
+    categories:
+    - crossplane
+    kind: XUpbox
+    plural: xupboxes
+  versions:
+  - name: v1alpha1
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        description: Upbox is the Schema for the Upbox API.
+        properties:
+          spec:
+            description: UpboxSpec defines the desired state of Upbox.
+            properties:
+              company:
+                type: string
+              name:
+                type: string
+                default: anonymous
+              networkId:
+                type: string
+              publicSshKey:
+                type: string
+              region:
+                type: string
+                enum:
+                  - ap-southeast-1
+                  - eu-central-1
+                  - eu-north-1
+                  - eu-west-1
+                  - sa-east-1
+                  - us-east-1
+                  - us-west-2
+                default: us-east-1
+              zone:
+                type: string
+                enum:
+                  - a
+                  - b
+                  - c
+                  - d
+                  - e
+                default: a
+              size:
+                type: string
+                enum:
+                  - small
+                  - medium
+                  - large
+                  - xlarge
+                  - premium
+                default: small
+            type: object
+            required:
+              - networkId
+              - publicSshKey
+          status:
+            description: UpboxStatus defines the observed state of Upbox.
+            type: object
+        required:
+        - spec
+        type: object
+    served: true

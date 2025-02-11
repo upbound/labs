@@ -1,0 +1,14 @@
+apiVersion: ai.platform.example.org/v1alpha1
+kind: Network
+metadata:
+  name: ai-upbox-net-us-east
+  namespace: default
+spec:
+  id: ai-upbox-net-us-east
+  region: us-east-1
+  vpcCidrBlock: 192.168.0.0/1600
+  subnets:
+    - availabilityZone: us-east-bar-1b
+      type: public-foo
+      cidrBlock: 192.168.0.0/1800
+  providerConfigName: default

@@ -1,0 +1,16 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xnetworks.ai.platform.example.org
+spec:
+  compositeTypeRef:
+    apiVersion: ai.platform.example.org/v1alpha1
+    kind: XNetwork
+  mode: Pipeline
+  pipeline:
+  - functionRef:
+      name: upbound-configuration-ai-playgroundcompose-network
+    step: compose-network
+  - functionRef:
+      name: crossplane-contrib-function-auto-ready
+    step: crossplane-contrib-function-auto-ready
