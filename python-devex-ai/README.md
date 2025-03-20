@@ -102,7 +102,7 @@ with AI Upboxes for members of the respective groups.
 > [!TIP]
 > Best Practice
 >
-> Use modern `up cli` version `0.37.0+` tooling in combination with an Upbound
+> Use modern `up cli` version `0.38.3+` tooling in combination with an Upbound
 > account for high velocity embedded Python function programming with
 > Crossplane.
 
@@ -158,7 +158,8 @@ machines independently of their networks.
 - Develop functions code
 - Update apis/xnetworks/composition.yaml
 - `up project run`
-- Claim the network resources
+- `up ctx` [navigation to the control plane](https://github.com/upbound/labs/blob/main/python-devex-ai/README.md#build-configuration-package)
+- `kubectl apply` a claim for the network resources
 - Validate that we can successfully create the network
 
 ### Machines
@@ -172,7 +173,8 @@ machines independently of their networks.
 - Develop functions code
 - Update apis/xnetworks/composition.yaml
 - `up project run`
-- Claim the upbox-ai resources
+- `up ctx` [navigation to the control plane](https://github.com/upbound/labs/blob/main/python-devex-ai/README.md#build-configuration-package)
+- `kubectl apply` a claim for the upbox-ai resources
 - Validate that we can successfully create a usable upbox-ai
 
 ## Create The Configuration
