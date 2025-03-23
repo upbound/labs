@@ -573,7 +573,7 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
     # does not set the id field to be required.
     if observed_xr.spec.id is not None:
         network_id=observed_xr.spec.id
-        log.info("network_id:", network_id)
+        log.info("network_id:" + network_id)
     else:
         resource.update(rsp.desired.composite.resource, {
             "status": {
@@ -584,19 +584,18 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
     # providerConfig defaults to "default" if not specified
     if observed_xr.spec.providerConfigName is not None:
         provider_config_name=observed_xr.spec.providerConfigName
-        log.info("provider_config_name:", provider_config_name)
+        log.info("provider_config_name:" + provider_config_name)
 
     if observed_xr.spec.region is not None:
-        region=observed_xr.spec.region
-        log.info("region:", region)
+        region=str(observed_xr.spec.region).split(".")[1].replace("_", "-")
+        log.info("region:" + region)
 
     if observed_xr.spec.vpcCidrBlock is not None:
         vpc_cidr_block=observed_xr.spec.vpcCidrBlock
-        log.info("vpc_cidr_block:", vpc_cidr_block)
+        log.info("vpc_cidr_block:" + vpc_cidr_block)
 
     if observed_xr.spec.subnets is not None:
         subnets=observed_xr.spec.subnets
-        log.info("subnets:", subnets)
 
     # VPC
     vpc=vpc_v1beta1.VPC(
