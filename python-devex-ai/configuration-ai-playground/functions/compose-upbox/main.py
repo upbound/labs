@@ -8,7 +8,9 @@ from crossplane.function.proto.v1 import run_function_pb2 as fnv1
 
 from .model.io.k8s.apimachinery.pkg.apis.meta import v1 as metav1
 
-from .model.org.example.platform.ai.upbox import v1alpha1
+from .model.org.example.platform.ai.xupbox import v1alpha1
+from .model.io.upbound.aws.ec2.ebssnapshot import v1beta1 as v1beta1ebssnapshot
+from .model.io.upbound.aws.ec2.ebsvolume import v1beta1 as v1beta1ebsvolume
 from .model.io.upbound.aws.ec2.instance import v1beta1 as v1beta1instance
 from .model.io.upbound.aws.ec2.keypair import v1beta1 as v1beta1keypair
 
@@ -33,7 +35,7 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
     }
 
     # Casting the request to v1alpha1.Box performs an implicit schema validation
-    observed_xr=v1alpha1.Upbox(**req.observed.composite.resource)
+    observed_xr=v1alpha1.XUpbox(**req.observed.composite.resource)
     log.info("observed_xr")
     log.info(observed_xr)
 
@@ -103,6 +105,47 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
         "networks.aws.platform.upbound.io/id": network_id,
         "networks.aws.platform.upbound.io/type": "ssh"
     }
+
+    ebsvolume=v1beta1ebsvolume.EBSVolume(
+        apiVersion="ec2.aws.upbound.io/v1beta1",
+        kind="EBSVolume",
+        metadata=metav1.ObjectMeta(
+            labels={
+                "instances.aws.platform.upbound.io/id": "ebsvolume"
+            }
+        ),
+        spec=v1beta1ebsvolume.Spec(
+            forProvider=v1beta1ebsvolume.ForProvider(
+                availabilityZone=region + zone,
+                region=region,
+                size=32
+            )
+        )
+    )
+    resource.update(rsp.desired.resources["ebsvolume"], ebsvolume)
+
+    ebssnapshot=v1beta1ebssnapshot.EBSSnapshot(
+        apiVersion="ec2.aws.upbound.io/v1beta1",
+        kind="EBSSnapshot",
+        metadata=metav1.ObjectMeta(
+            labels={
+                "instances.aws.platform.upbound.io/id": "snapshot"
+            },
+            name=upbox_id
+        ),
+        spec=v1beta1ebssnapshot.Spec(
+            forProvider=v1beta1ebssnapshot.ForProvider(
+                volumeIdSelector=v1beta1ebssnapshot.VolumeIdSelector(
+                    matchControllerRef=True,
+                    matchLabels={
+                      "instances.aws.platform.upbound.io/id": "ebsvolume"
+                    }
+                ),
+                region="us-east-1"
+            )
+        )
+    )
+    resource.update(rsp.desired.resources["ebssnapshot"], ebssnapshot)
 
     keypair=v1beta1keypair.KeyPair(
         apiVersion="ec2.aws.upbound.io/v1beta1",
