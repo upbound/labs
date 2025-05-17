@@ -1,3 +1,4 @@
+from .model.org.example.platform.ai.xupbox import v1alpha1
 from .model.io.k8s.apimachinery.pkg.apis.meta import v1 as k8s
 from .model.io.k8s.apimachinery.pkg.apis.meta import v1 as metav1
 from .model.io.upbound.aws.ec2.ebssnapshot import v1beta1 as v1beta1ebssnapshot
@@ -39,7 +40,8 @@ ebssnapshot=v1beta1ebssnapshot.EBSSnapshot(
     metadata=metav1.ObjectMeta(
         labels={
             "instances.aws.platform.upbound.io/id": "snapshot"
-        }
+        },
+        name="huggingface-deep-learning-neuron-markus-schweig"
     ),
     spec=v1beta1ebssnapshot.Spec(
         forProvider=v1beta1ebssnapshot.ForProvider(
@@ -49,7 +51,29 @@ ebssnapshot=v1beta1ebssnapshot.EBSSnapshot(
                     "instances.aws.platform.upbound.io/id": "ebsvolume"
                 }
             ),
+            region="us-east-1"
+        )
+    )
+)
+
+# Test for EBS Root Snapshot
+ebsrootsnapshot=v1beta1ebssnapshot.EBSSnapshot(
+    apiVersion="ec2.aws.upbound.io/v1beta1",
+    kind="EBSSnapshot",
+    metadata=metav1.ObjectMeta(
+        name="rootsnapshot",
+        labels={
+            "instances.aws.platform.upbound.io/id": "rootsnapshot"
+        }
+    ),
+    spec=v1beta1ebssnapshot.Spec(
+        forProvider=v1beta1ebssnapshot.ForProvider(
+            volumeId="vol-0123456789abcdef0",  # This will be replaced by actual volume ID in the function
             region="us-east-1",
+            tags={
+                "Name": "root-snapshot-huggingface-deep-learning-neuron-markus-schweig",
+                "Source": "EC2 Instance Root Volume"
+            }
         )
     )
 )
@@ -91,6 +115,11 @@ instance=v1beta1instance.Instance(
             associatePublicIpAddress=True,
             ami="ami-0f9a795e2d1186fe3",
             keyName="key-markus-schweig",
+            rootBlockDevice=[
+                v1beta1instance.RootBlockDeviceItem(
+                    volumeSize=512
+                )
+            ],
             subnetIdSelector=v1beta1instance.SubnetIdSelector(
                 matchLabels=desired_subnet_id_selector_labels
             ),
@@ -98,6 +127,21 @@ instance=v1beta1instance.Instance(
                 matchLabels=desired_vpc_security_group_id_selector_labels
             ),
         )
+    ),
+    status=v1beta1instance.Status(
+       atProvider=v1beta1instance.AtProvider(
+          rootBlockDevice=[
+            {  # Use a dictionary instead of RootBlockDeviceItem
+                "deleteOnTermination": "true",
+                "volumeId": "vol-0123456789abcdef0",
+                "deviceName": "/dev/sda1",
+                "deleteOnTermination": True,
+                "encrypted": False,
+                "volumeSize": 512,
+                "volumeType": "gp2"
+            }
+          ]
+       )
     )
 )
 
@@ -106,10 +150,17 @@ test = compositiontest.CompositionTest(
         name="test-xupbox",
     ),
     spec = compositiontest.Spec(
-        assertResources=[instance.model_dump(exclude_unset=True),keypair.model_dump(exclude_unset=True),ebsvolume.model_dump(exclude_unset=True)],
+        assertResources=[
+            instance.model_dump(exclude_unset=True),
+            keypair.model_dump(exclude_unset=True),
+            ebsvolume.model_dump(exclude_unset=True),
+            ebssnapshot.model_dump(exclude_unset=True),
+            ebsrootsnapshot.model_dump(exclude_unset=True)
+        ],
         compositionPath="apis/xupboxes/composition.yaml",
         xrPath="examples/upbox/ai-upbox-vm-us-east-1-xr.yaml",
         xrdPath="apis/xupboxes/definition.yaml",
+        observedResources=[instance.model_dump(exclude_unset=True)],
         timeoutSeconds=120,
         validate=False,
     )

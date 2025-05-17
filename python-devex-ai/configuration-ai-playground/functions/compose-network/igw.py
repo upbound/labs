@@ -6,7 +6,7 @@ from crossplane.function.proto.v1 import run_function_pb2 as fnv1
 # Crossplane in cluster imports require leading dot
 
 from .model.io.k8s.apimachinery.pkg.apis.meta import v1 as metav1
-from .model.org.example.platform.ai.network import v1alpha1
+from .model.org.example.platform.ai.xnetwork import v1alpha1
 from .model.io.upbound.aws.ec2.internetgateway import v1beta1 as internet_gateway_v1beta1
 
 
@@ -16,7 +16,7 @@ def compose_igw(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse, con
     log=logging.get_logger()
     log.info("compose-igw")
 
-    observed_xr=v1alpha1.Network(**req.observed.composite.resource)
+    observed_xr=v1alpha1.XNetwork(**req.observed.composite.resource)
 
     # InternetGateway
     igw=internet_gateway_v1beta1.InternetGateway(

@@ -8,7 +8,7 @@ from crossplane.function.proto.v1 import run_function_pb2 as fnv1
 # Add models as import
 # Crossplane in cluster imports require leading dot
 
-from .model.org.example.platform.ai.network import v1alpha1
+from .model.org.example.platform.ai.xnetwork import v1alpha1
 from .igw import compose_igw
 from .rt import compose_rt
 from .sg import compose_sg
@@ -52,7 +52,7 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
 
 
     # This will raise an exception for schema validations
-    observed_xr=v1alpha1.Network(**req.observed.composite.resource)
+    observed_xr=v1alpha1.XNetwork(**req.observed.composite.resource)
 
     # Composite resource status for xnetwork
     # See apis/xnetworks/definition.yaml

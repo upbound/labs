@@ -147,6 +147,29 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
     )
     resource.update(rsp.desired.resources["ebssnapshot"], ebssnapshot)
 
+    if "instance" in req.observed.resources:
+        observed_instance=v1beta1instance.Instance(**req.observed.resources["instance"].resource)
+
+        if hasattr(observed_instance.status.atProvider, "rootBlockDevice"):
+            if observed_instance.status.atProvider.rootBlockDevice and hasattr(observed_instance.status.atProvider.rootBlockDevice[0], "volumeId"):
+                ebsrootsnapshot=v1beta1ebssnapshot.EBSSnapshot(
+                    apiVersion="ec2.aws.upbound.io/v1beta1",
+                    kind="EBSSnapshot",
+                    metadata=metav1.ObjectMeta(
+                        labels={
+                            "instances.aws.platform.upbound.io/id": "rootsnapshot"
+                        },
+                        name=upbox_id
+                    ),
+                    spec=v1beta1ebssnapshot.Spec(
+                        forProvider=v1beta1ebssnapshot.ForProvider(
+                            volumeId=observed_instance.status.atProvider.rootBlockDevice[0].volumeId,
+                            region=region
+                        )
+                    )
+                )
+                resource.update(rsp.desired.resources["ebsrootsnapshot"], ebsrootsnapshot)
+
     keypair=v1beta1keypair.KeyPair(
         apiVersion="ec2.aws.upbound.io/v1beta1",
         kind="KeyPair",
@@ -193,6 +216,11 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
                 associatePublicIpAddress=True,
                 ami=ami[region],
                 keyName=key_name,
+                rootBlockDevice=[
+                    v1beta1instance.RootBlockDeviceItem(
+                        volumeSize=512
+                    )
+                ],
                 subnetIdSelector=v1beta1instance.SubnetIdSelector(
                     matchLabels=desired_subnet_id_selector_labels
                 ),
@@ -208,7 +236,7 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
             providerConfigRef=v1beta1instance.ProviderConfigRef(
                 name="default"
             )
-        )
+        ),
     )
     resource.update(rsp.desired.resources["instance"], instance)
 

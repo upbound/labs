@@ -7,7 +7,7 @@ from crossplane.function.proto.v1 import run_function_pb2 as fnv1
 
 from .model.io.k8s.apimachinery.pkg.apis.meta import v1 as metav1
 
-from .model.org.example.platform.ai.network import v1alpha1
+from .model.org.example.platform.ai.xnetwork import v1alpha1
 from .model.io.upbound.aws.ec2.securitygroup import v1beta1 as security_group_v1beta1
 from .model.io.upbound.aws.ec2.securitygrouprule import v1beta1 as security_group_rule_v1beta1
 
@@ -18,7 +18,7 @@ def compose_sg(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse, conf
     log=logging.get_logger()
     log.info("compose-sg")
 
-    observed_xr=v1alpha1.Network(**req.observed.composite.resource)
+    observed_xr=v1alpha1.XNetwork(**req.observed.composite.resource)
 
     # Security Group
     sg=security_group_v1beta1.SecurityGroup(
