@@ -69,11 +69,7 @@ ebsrootsnapshot=v1beta1ebssnapshot.EBSSnapshot(
     spec=v1beta1ebssnapshot.Spec(
         forProvider=v1beta1ebssnapshot.ForProvider(
             volumeId="vol-0123456789abcdef0",  # This will be replaced by actual volume ID in the function
-            region="us-east-1",
-            tags={
-                "Name": "root-snapshot-huggingface-deep-learning-neuron-markus-schweig",
-                "Source": "EC2 Instance Root Volume"
-            }
+            region="us-east-1"
         )
     )
 )
@@ -106,7 +102,17 @@ instance=v1beta1instance.Instance(
             "upbox.aws.platform.upbound.io/id": "huggingface-deep-learning-neuron-markus-schweig",
             "upbox.aws.platform.upbound.io/owner": ""
         },
-        name="huggingface-deep-learning-neuron-markus-schweig"
+        name="huggingface-deep-learning-neuron-markus-schweig",
+        ownerReferences=[
+            k8s.OwnerReference(
+                apiVersion="ai.platform.example.org/v1alpha1",
+                kind="XUpbox",
+                name="ai-upbox-vm-us-east-1",
+                blockOwnerDeletion="true",
+                controller="true",
+                uid=""
+            )
+        ]
     ),
     spec=v1beta1instance.Spec(
         forProvider=v1beta1instance.ForProvider(
