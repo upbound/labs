@@ -8,3 +8,8 @@ to use Upbound and its tooling to create
 [HuggingFace](https://huggingface.co/) virtual machines on
 [AWS Inference 2](https://aws.amazon.com/ec2/instance-types/inf2/)
 instances, including the underlying network resources.
+
+## [Golang DevEx](./golang-devex)
+
+The [Golang DevEx lab](./golang-devex) showcases how to use Upbound and its
+tooling to perform infrastructure lifecycle management tasks in Golang.
