@@ -1,0 +1,5 @@
+apiVersion: ai.platform.example.org/v1alpha1
+kind: Getenv
+metadata:
+  name: env-1
+spec: {}
