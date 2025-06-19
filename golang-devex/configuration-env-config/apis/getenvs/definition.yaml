@@ -1,0 +1,28 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: getenvs.ai.platform.example.org
+spec:
+  group: ai.platform.example.org
+  names:
+    categories:
+    - crossplane
+    kind: Getenv
+    plural: getenvs
+  versions:
+  - name: v1alpha1
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        description: Getenv is the Schema for the Getenv API.
+        properties:
+          spec:
+            description: GetenvSpec defines the desired state of Getenv.
+            type: object
+          status:
+            description: GetenvStatus defines the observed state of Getenv.
+            type: object
+        required:
+        - spec
+        type: object
+    served: true

@@ -1,0 +1,13 @@
+apiVersion: apiextensions.crossplane.io/v1beta1
+kind: EnvironmentConfig
+metadata:
+  name: example-config
+data:
+  locations:
+    us: us-east-2
+    eu: eu-north-1
+  key1: value1
+  key2: value2
+  key3:
+    - item1
+    - item2
