@@ -1,0 +1,9 @@
+apiVersion: aws.schonfeld.com/v1alpha1
+kind: XEC2Instance
+metadata:
+  name: ec2-with-root-snapshot
+spec:
+  parameters:
+    instanceName: ec2-with-root-snapshot
+    region: us-east-1
+    enableSnapshot: true

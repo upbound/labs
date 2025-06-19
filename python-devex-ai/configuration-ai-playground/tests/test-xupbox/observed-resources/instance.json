@@ -1,0 +1,186 @@
+apiVersion: v1
+items:
+- apiVersion: ec2.aws.upbound.io/v1beta2
+  kind: Instance
+  metadata:
+    annotations:
+      crossplane.io/composition-resource-name: instance
+      crossplane.io/external-create-failed: "2025-05-16T23:26:52Z"
+      crossplane.io/external-create-pending: "2025-05-16T23:26:52Z"
+      crossplane.io/external-create-succeeded: "2025-05-16T23:23:17Z"
+      crossplane.io/external-name: i-0c7b5a105c27ac289
+      name: huggingface-deep-learning-neuron-markus-schweig
+    creationTimestamp: "2025-05-16T23:08:20Z"
+    finalizers:
+    - finalizer.managedresource.crossplane.io
+    generateName: ai-upbox-vm-us-east-1-
+    generation: 203
+    labels:
+      crossplane.io/claim-name: ""
+      crossplane.io/claim-namespace: ""
+      crossplane.io/composite: ai-upbox-vm-us-east-1
+      upbox.aws.platform.upbound.io/id: huggingface-deep-learning-neuron-markus-schweig
+      upbox.aws.platform.upbound.io/owner: ""
+    name: huggingface-deep-learning-neuron-markus-schweig
+    ownerReferences:
+    - apiVersion: ai.platform.example.org/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: XUpbox
+      name: ai-upbox-vm-us-east-1
+      uid: 30c2fc74-4539-4496-ac52-44063bebdd96
+    resourceVersion: "94674"
+    uid: 8f347a7c-11be-4d56-b332-bb5b2f78ccc0
+  spec:
+    deletionPolicy: Delete
+    forProvider:
+      ami: ami-0f9a795e2d1186fe3
+      associatePublicIpAddress: true
+      availabilityZone: us-east-1a
+      capacityReservationSpecification:
+        capacityReservationPreference: open
+      cpuOptions:
+        coreCount: 2
+        threadsPerCore: 2
+      enclaveOptions: {}
+      instanceInitiatedShutdownBehavior: stop
+      instanceType: inf2.xlarge
+      keyName: key-markus-schweig
+      maintenanceOptions:
+        autoRecovery: default
+      metadataOptions:
+        httpEndpoint: enabled
+        httpProtocolIpv6: disabled
+        httpPutResponseHopLimit: 1
+        httpTokens: optional
+        instanceMetadataTags: disabled
+      privateDnsNameOptions:
+        hostnameType: ip-name
+      region: us-east-1
+      rootBlockDevice:
+        volumeSize: 512
+      subnetId: subnet-075a8e0decb68a2c0
+      subnetIdRef:
+        name: subnet-us-east-1a-public
+      subnetIdSelector:
+        matchLabels:
+          access: public
+          networks.aws.platform.upbound.io/id: ai-upbox-net-us-east
+          zone: us-east-1a
+      tags:
+        Name: ai-upbox-vm-us-east-1
+        crossplane-kind: instance.ec2.aws.upbound.io
+        crossplane-name: huggingface-deep-learning-neuron-markus-schweig
+        crossplane-providerconfig: default
+        last-reconcile-date: Saturday 2025-05-17 02:01:59 UTC
+      tenancy: default
+      vpcSecurityGroupIdRefs:
+      - name: sg
+      vpcSecurityGroupIdSelector:
+        matchLabels:
+          networks.aws.platform.upbound.io/id: ai-upbox-net-us-east
+          networks.aws.platform.upbound.io/type: ssh
+      vpcSecurityGroupIds:
+      - sg-06ee14fc8d4952e48
+    initProvider: {}
+    managementPolicies:
+    - '*'
+    providerConfigRef:
+      name: default
+  status:
+    atProvider:
+      ami: ami-0f9a795e2d1186fe3
+      arn: arn:aws:ec2:us-east-1:656321468224:instance/i-0c7b5a105c27ac289
+      associatePublicIpAddress: true
+      availabilityZone: us-east-1a
+      capacityReservationSpecification:
+        capacityReservationPreference: open
+      cpuCoreCount: 2
+      cpuOptions:
+        amdSevSnp: ""
+        coreCount: 2
+        threadsPerCore: 2
+      cpuThreadsPerCore: 2
+      disableApiStop: false
+      disableApiTermination: false
+      ebsOptimized: false
+      enclaveOptions:
+        enabled: false
+      getPasswordData: false
+      hibernation: false
+      hostId: ""
+      iamInstanceProfile: ""
+      id: i-0c7b5a105c27ac289
+      instanceInitiatedShutdownBehavior: stop
+      instanceLifecycle: ""
+      instanceState: running
+      instanceType: inf2.xlarge
+      ipv6AddressCount: 0
+      keyName: key-markus-schweig
+      maintenanceOptions:
+        autoRecovery: default
+      metadataOptions:
+        httpEndpoint: enabled
+        httpProtocolIpv6: disabled
+        httpPutResponseHopLimit: 1
+        httpTokens: optional
+        instanceMetadataTags: disabled
+      monitoring: false
+      outpostArn: ""
+      passwordData: ""
+      placementGroup: ""
+      placementPartitionNumber: 0
+      primaryNetworkInterfaceId: eni-09c0936110286f298
+      privateDns: ip-192-168-46-168.ec2.internal
+      privateDnsNameOptions:
+        enableResourceNameDnsARecord: false
+        enableResourceNameDnsAaaaRecord: false
+        hostnameType: ip-name
+      privateIp: 192.168.46.168
+      publicDns: ""
+      publicIp: 18.206.242.150
+      rootBlockDevice:
+        deleteOnTermination: true
+        deviceName: /dev/sda1
+        encrypted: false
+        iops: 1536
+        kmsKeyId: ""
+        throughput: 0
+        volumeId: vol-0c906464b1a9a9fa4
+        volumeSize: 512
+        volumeType: gp2
+      sourceDestCheck: true
+      spotInstanceRequestId: ""
+      subnetId: subnet-075a8e0decb68a2c0
+      tags:
+        Name: ai-upbox-vm-us-east-1
+        crossplane-kind: instance.ec2.aws.upbound.io
+        crossplane-name: huggingface-deep-learning-neuron-markus-schweig
+        crossplane-providerconfig: default
+        last-reconcile-date: Saturday 2025-05-17 02:01:59 UTC
+      tagsAll:
+        Name: ai-upbox-vm-us-east-1
+        crossplane-kind: instance.ec2.aws.upbound.io
+        crossplane-name: huggingface-deep-learning-neuron-markus-schweig
+        crossplane-providerconfig: default
+        last-reconcile-date: Saturday 2025-05-17 02:01:59 UTC
+      tenancy: default
+      userDataReplaceOnChange: false
+      vpcSecurityGroupIds:
+      - sg-06ee14fc8d4952e48
+    conditions:
+    - lastTransitionTime: "2025-05-16T23:27:05Z"
+      reason: ReconcileSuccess
+      status: "True"
+      type: Synced
+    - lastTransitionTime: "2025-05-16T23:27:25Z"
+      reason: Available
+      status: "True"
+      type: Ready
+    - lastTransitionTime: "2025-05-16T23:27:05Z"
+      reason: Success
+      status: "True"
+      type: LastAsyncOperation
+kind: List
+metadata:
+  resourceVersion: ""

@@ -129,7 +129,7 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
         kind="EBSSnapshot",
         metadata=metav1.ObjectMeta(
             labels={
-                "instances.aws.platform.upbound.io/id": "snapshot"
+                "instances.aws.platform.upbound.io/id": "ebssnapshot"
             },
             name=upbox_id
         ),
@@ -156,10 +156,18 @@ def compose(req: fnv1.RunFunctionRequest, rsp: fnv1.RunFunctionResponse):
                     apiVersion="ec2.aws.upbound.io/v1beta1",
                     kind="EBSSnapshot",
                     metadata=metav1.ObjectMeta(
-                        labels={
-                            "instances.aws.platform.upbound.io/id": "rootsnapshot"
-                        },
-                        name=upbox_id
+                        #ownerReferences=[
+                        #   metav1.OwnerReference(
+                        #       apiVersion="ai.platform.example.org/v1alpha1",
+                        #       kind="XUpbox",
+                        #       name=upbox_id,
+                        #       uid=""
+                        #   )
+                        #],
+                        #labels={
+                        #    "instances.aws.platform.upbound.io/id": "ebsrootsnapshot"
+                        #},
+                        #name=upbox_id
                     ),
                     spec=v1beta1ebssnapshot.Spec(
                         forProvider=v1beta1ebssnapshot.ForProvider(
